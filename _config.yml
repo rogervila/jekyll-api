@@ -1,0 +1,41 @@
+---
+encoding: utf-8
+plugins:
+  - github-pages
+exclude:
+  - vendor
+  - Gemfile
+  - Gemfile.lock
+collections:
+  authors:
+    output: true
+    permalink: "/api/v1/authors/:title"
+  categories:
+    output: true
+    permalink: "/api/v1/categories/:title"
+defaults:
+  -
+    scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "compress"
+  -
+    scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      permalink: "/api/v1/posts/:year-:month-:day-:title.json"
+  -
+    scope:
+      path: ""
+      type: "authors"
+    values:
+      layout: "author"
+  -
+    scope:
+      path: ""
+      type: "categories"
+    values:
+      layout: "category"

@@ -1,0 +1,21 @@
+---
+layout: compress
+---
+{
+    "data": [
+        {% for author in site.authors %}
+            {% assign author_id = author.id | replace: '.json', '' | replace: '/api/v1/authors/', '' %}
+            {
+                "type": "people",
+                "id": "{{ author_id }}",
+                "attributes": {
+                    "name": "{{ author.name | replace: '"', '\"' }}"
+                },
+                "links": {
+                    "self": "{{ site.url }}/api/v1/authors/{{ author_id }}.json"
+                }
+            }
+        {% if forloop.last == false %},{% endif %}
+        {% endfor %}
+    ]
+}

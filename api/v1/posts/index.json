@@ -1,0 +1,23 @@
+---
+layout: compress
+---
+{
+    "data": [
+        {% for post in site.posts %}
+            {% assign post_id = post.path | replace: "_posts/", "" | replace: ".md", "" | replace: ".markdown", "" | replace: ".html", "" %}
+            {
+                "type": "articles",
+                "id": "{{ post_id }}",
+                "attributes": {
+                    "title": "{{ post.title | replace: '"', '\"' }}",
+                    "excerpt": "{{ post.excerpt | replace: '"', '\"' }}",
+                    "date": "{{ post.date | replace: '"', '\"' }}"
+                },
+                "links": {
+                    "self": "{{ site.url }}/api/v1/posts/{{ post_id }}.json"
+                }
+            }
+        {% if forloop.last == false %},{% endif %}
+        {% endfor %}
+    ]
+}
