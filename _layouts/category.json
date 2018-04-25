@@ -1,0 +1,41 @@
+---
+layout: compress
+---
+{% assign category_id = page.id | replace: '/api/v1/categories/', '' | replace: '"', '\"' %}
+{
+    "data": [
+        {
+            "type": "categories",
+            "id": "{{ page.id | replace: '/api/v1/categories/', '' | replace: '"', '\"' }}",
+            "attributes": {
+                "name": "{{ page.name | replace: '"', '\"' }}",
+                "description": "{{ page.description | replace: '"', '\"' }}"
+            },
+            "relationships": {
+                "articles": {
+                    "links": {
+                        "self": "{{ site.url }}/api/v1/posts/"
+                    },
+                    "data": [
+                        {% assign categories_posts = site.posts | where: 'categories', category_id  %}
+                        {% for post in categories_posts %}
+                            {% assign post_id = post.path | replace: "_posts/", "" | replace: ".md", "" | replace: ".markdown", "" | replace: ".html", "" %}
+                            {
+                                "type": "articles",
+                                "id": "{{ post_id }}",
+                                "attributes": {
+                                    "title": "{{ post.title | replace: '"', '\"' }}",
+                                    "excerpt": "{{ post.excerpt | replace: '"', '\"' }}",
+                                    "date": "{{ post.date | replace: '"', '\"' }}"
+                                },
+                                "links": {
+                                    "self": "{{ site.url }}/api/v1/posts/{{ post_id }}.json"
+                                }
+                            }{% if forloop.last == false %},{% endif %}
+                        {% endfor %}
+                    ]
+                }
+            }
+        }
+    ]
+}

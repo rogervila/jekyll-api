@@ -1,0 +1,42 @@
+---
+layout: compress
+---
+{% assign author_id = page.id | replace: '/api/v1/authors/', '' | replace: '"', '\"' %}
+{
+    "data": [
+        {
+            "type": "people",
+            "id": "{{ author_id }}",
+            "attributes": {
+                "name": "{{ page.name | replace: '"', '\"' }}",
+                "twitter": "{{ page.twitter | replace: '"', '\"' }}",
+                "description": "{{ page.description | replace: '"', '\"' }}"
+            },
+            "relationships": {
+                "articles": {
+                    "links": {
+                        "self": "{{ site.url }}/api/v1/posts/"
+                    },
+                    "data": [
+                        {% assign author_posts = site.posts | where: 'author', author_id  %}
+                        {% for post in author_posts %}
+                            {% assign post_id = post.path | replace: "_posts/", "" | replace: ".md", "" | replace: ".markdown", "" | replace: ".html", "" %}
+                            {
+                                "type": "articles",
+                                "id": "{{ post_id }}",
+                                "attributes": {
+                                    "title": "{{ post.title | replace: '"', '\"' }}",
+                                    "excerpt": "{{ post.excerpt | replace: '"', '\"' }}",
+                                    "date": "{{ post.date | replace: '"', '\"' }}"
+                                },
+                                "links": {
+                                    "self": "{{ site.url }}/api/v1/posts/{{ post_id }}.json"
+                                }
+                            }{% if forloop.last == false %},{% endif %}
+                        {% endfor %}
+                    ]
+                }
+            }
+        }
+    ]
+}

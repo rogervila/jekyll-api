@@ -1,0 +1,21 @@
+---
+layout: compress
+---
+{
+    "data": [
+        {% for category in site.categories %}
+            {% assign category_id = category.id | replace: '.json', '' | replace: '/api/v1/categories/', '' %}
+            {
+                "type": "people",
+                "id": "{{ category_id }}",
+                "attributes": {
+                    "name": "{{ category.name | replace: '"', '\"' }}"
+                },
+                "links": {
+                    "self": "{{ site.url }}/api/v1/categories/{{ category_id }}.json"
+                }
+            }
+        {% if forloop.last == false %},{% endif %}
+        {% endfor %}
+    ]
+}

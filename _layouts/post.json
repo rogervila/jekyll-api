@@ -1,0 +1,70 @@
+---
+layout: compress
+---
+{% assign categories_amount = page.categories | size %}
+{
+    "data": [
+        {
+            "type": "articles",
+            "id": "{{ page.path | replace: "_posts/", "" | replace: ".md", "" | replace: ".markdown", "" | replace: ".html", "" }}",
+            "attributes": {
+                "title": "{{ page.title | replace: '"', '\"' }}",
+                "excerpt": "{{ page.excerpt | replace: '"', '\"' }}",
+                "body": "{{ page.content | replace: '"', '\"' }}",
+                "date": "{{ page.date | replace: '"', '\"' }}"
+            },
+            "relationships": {
+                {% if page.author %}
+                "author": {
+                    "links": {
+                        "self": "{{ site.url }}/api/v1/authors/{{ page.author }}.json"
+                    },
+                    "data": {
+                        "type": "people",
+                        "id": "{{ page.author }}"
+                        {% for author in site.authors %}
+                            {% assign index = "/api/v1/authors/" | append: page.author %}
+                            {% if index == author.id %}
+                                , "attributes": {
+                                    "name": "{{ author.name }}",
+                                    "twitter": "{{ author.twitter }}",
+                                    "description": "{{ author.description }}"
+                                }
+                            {% endif %}
+                        {% endfor %}
+                    }
+                }
+                {% endif %}
+                {% if page.author and categories_amount > 0 %},{% endif %}
+                {% if categories_amount > 0 %}
+                    "categories": {
+                        "links": {
+                            "self": "{{ site.url }}/api/v1/categories/"
+                        },
+                        "data": [
+                            {% for i in page.categories %}
+                                {% for category in site.categories %}
+                                    {% assign index = "/api/v1/categories/" | append: i %}
+                                    {% if index == category.id %}
+                                        {
+                                            "type": "categories",
+                                            "id": "{{ category.id | replace: '/api/v1/categories/', '' }}",
+                                            "attributes": {
+                                                "name": "{{ category.name }}",
+                                                "description": "{{ category.description }}"
+                                            },
+                                            "links": {
+                                                "self": "{{ site.url }}/api/v1/categories/{{ i }}.json"
+                                            }
+                                        }
+                                    {% endif %}
+                                {% endfor %}
+                                {% if forloop.last == false %},{% endif %}
+                            {% endfor %}
+                        ]
+                    }
+                {% endif %}
+            }
+        }
+    ]
+}
