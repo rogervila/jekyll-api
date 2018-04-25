@@ -20,7 +20,7 @@ Returns a post by id.
 
 The id of the post is the filename without file extension.
 
-**Example: [/api/v1/posts/2018-04-17-lorem-ipsum.json](api/v1/posts/2018-04-17-lorem-ipsum.json)**
+**Example: [/api/v1/posts/2018-04-17-lorem-ipsum.json](https://rogervila.es/jekyll-api/api/v1/posts/2018-04-17-lorem-ipsum.json)**
 
 ```
 /api/v1/posts/{id}.json
@@ -42,7 +42,7 @@ Returns a author by id.
 
 The id of the author is the filename without file extension.
 
-**Example: [/api/v1/authors/john-doe.json](api/v1/authors/john-doe.json)**
+**Example: [/api/v1/authors/john-doe.json](https://rogervila.es/jekyll-api/api/v1/authors/john-doe.json)**
 
 ```
 /api/v1/authors/{id}.json
@@ -64,7 +64,7 @@ Returns a category by id.
 
 The id of the category is the filename without file extension.
 
-**Example: [/api/v1/categories/music.json](api/v1/categories/music.json)**
+**Example: [/api/v1/categories/music.json](https://rogervila.es/jekyll-api/api/v1/categories/music.json)**
 
 ```
 /api/v1/categories/{id}.json
