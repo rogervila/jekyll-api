@@ -1,5 +1,6 @@
 ---
 encoding: utf-8
+repository: rogervila/rogervila.github.io
 plugins:
   - github-pages
 exclude:
